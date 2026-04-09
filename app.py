@@ -1,7 +1,14 @@
 import streamlit as st
+import os
+import google.generativeai as genai
 from supabase_client import supabase
+from dotenv import load_dotenv
 from datetime import date
 
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.5-flash")
 st.title("💰 Finance App")
 
 # --- ADD EXPENSE FORM ---
@@ -92,9 +99,7 @@ if st.button("Analyse My Spending"):
         Keep it short and friendly.
         """
 
-        import google.generativeai as genai
-        genai.configure(api_key="AIzaSyDYgUZ2Fe8vVyetsoL8gu9-Q0FVzIFH17M")
-        model = genai.GenerativeModel("gemini-2.5-flash")
+    
 
         with st.spinner("Analysing your spending..."):
             response = model.generate_content(prompt)
